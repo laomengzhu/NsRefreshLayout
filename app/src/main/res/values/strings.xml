@@ -1,0 +1,22 @@
+<resources>
+    <string name="app_name">NsRefreshLayout</string>
+    <string name="large_string">
+        成长经历
+
+Stack Overflow 由 Jeff Atwood 和 Joel Spolsky 这两个非常著名的 Blogger 在 2008 年创建，7月小范围的进行 Beta 测试，直到 9 月份才开始公开的 Beta 测试。Stack Ov
+erflow 面向编程人员群体。到2010年年末，Stack Overflow 单个站点在 Alexa 的Rank 是 160 ，月度独立访客超过 1600 万，每月Page View 超过 7200 万 (refer)。Stack Exchange Network 在 2010 年 5 月接受了来自 Union Square Ventures 的 600 万美元的投资，在 2010 年扩大并完善了整个团队，从三个全职工程师发展到了 20 多人的队伍，搬进了 7500 平方英尺的豪华装修的办公室（当然每个人都坐着1000美元一把的椅子）。
+成功原因
+
+技术和社区基因
+当然可以说是众包(Crowdsourcing)的功劳，但哪一个成功的社区能少了众包的功劳呢？如果实际一点说，不可或缺的因素我想是两个创始人的技术和社区基因。作为两个著名的 Blogger，没有人会质疑 Joel 和 Jeff 在 目标用户(开发人员)需求的精准把握。何况在上线前后，Jeff 通过技术社群又进行了大量的调研和反馈（Joel 倒是似乎第一次做 Web 项目，Fog Creek 主要是软件开发)。此前市场上已经有Experts-Exchange之类的老牌产品，Stack Overflow 则反其道而行之(Anti-Experts-Exchange)，作为技术人员，你一定遇到过搜索技术问题到了 Experts-Exchange 网站，但是你发现问题下面并没有合适的解答，仅仅有人提问，但是没有有效的激励回答者则是没有价值的。Stack Overflow 参考 Reddit 等网站的用户激励机制，关注问题质量，其做法是通过威望值(Reputation Point) 与徽章(Badge) 建立起信任评价体系，并且做到对参与者的有效激励。我是否说过技术人员都是"好面子"的？没有，那么现在记住这句话吧。
+秉承独特的设计理念
+Stack Overflow 绝对没有多余的或是跟风的功能(比如一些不必要的 Social Network 特性)。如果看过 Joel 的书或是订阅他的 Blog，你应该知道他是个相当偏执的家伙，尤其是在产品设计方面，他认为对的事情绝不会妥协，参见他在《软件随想录》中的《别给用户太多选择》以及《用软件搭建社区》等章节。我不知道究竟团队在功能设计上是怎么分工的，但 Joel 一定是毫无质疑的植入自己的设计理念。另外要补充的是，Stack Overflow 重新将"标签"化腐朽为神奇，也是相当值得称道的。
+横向的业务扩展模式
+Stack Exchange network 采取攻其一点，再进攻其余的方式。在面向开发人员的 Stack Overflow 获得验证并且成功之后，向类似话题领域扩展；然后与不同团队进行合作，逐渐引入更多的主题（比如 Ubuntu、面向物理学的话题等等）。最后，如果把几十个话题合起来，恰好是一个庞大的 -- 论坛。Stack Overflow是否重新"改造"了论坛这个古老的交流模式？
+技术？是个关键因素，但不是主要因素
+作为 Startup，罕见的使用了微软的技术体系进行开发，但也用开源软件。观察 Stack Overflow 所用的技术方案，会觉得是个大杂烩，除了 C# 、ASP 、SQL Server 等，也有 HAproxy、Redis 这些解决方案。 据 Joel 说，效率和成本也还不错。扩展模式上则首选 "Scale Up", 总之，就是有点特别。但是，用户体验相当好，这个是最难模仿的一个地方(另一个是运营套路)。
+缩写
+
+S.O. (Stack Overflow)，此网站浏览者常用的对自己网站的称呼。
+    </string>
+</resources>
