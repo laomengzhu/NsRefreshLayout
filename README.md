@@ -1,5 +1,5 @@
 # NsRefreshLayout 
-支持任意View的下拉刷新控件，同时支持上拉加载更多。
+支持任意View的下拉刷新控件，同时支持上拉加载更多。实现原理：http://blog.csdn.net/xiaomoit/article/details/50469810
 
 ## 效果预览
 
