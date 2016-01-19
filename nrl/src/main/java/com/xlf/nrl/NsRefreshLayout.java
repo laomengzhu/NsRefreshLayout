@@ -100,7 +100,9 @@ public class NsRefreshLayout extends FrameLayout {
      */
     private String mPullLoadText;
 
-    /**点击移动距离的误差值（点击操作可能会导致轻微的滑动）*/
+    /**
+     * 点击移动距离的误差值（点击操作可能会导致轻微的滑动）
+     */
     private static final int CLICK_TOUCH_DEVIATION = 4;
 
     public NsRefreshLayout(Context context) {
@@ -239,34 +241,31 @@ public class NsRefreshLayout extends FrameLayout {
     }
 
     @Override
-    public boolean onInterceptTouchEvent(MotionEvent ev) {
-        if (refreshLayoutController != null) {
-            mPullRefreshEnable = refreshLayoutController.isPullRefreshEnable();
-            mPullLoadEnable = refreshLayoutController.isPullLoadEnable();
-        }
-        return super.onInterceptTouchEvent(ev);
+    public void requestDisallowInterceptTouchEvent(boolean disallowIntercept) {
+
     }
 
     @Override
-    public boolean dispatchTouchEvent(MotionEvent event) {
-        if (!mPullRefreshEnable && !mPullLoadEnable) {
-            return super.dispatchTouchEvent(event);
+    public boolean onInterceptTouchEvent(MotionEvent ev) {
+        if (ev.getActionMasked() == MotionEvent.ACTION_DOWN && refreshLayoutController != null) {
+            mPullRefreshEnable = refreshLayoutController.isPullRefreshEnable();
+            mPullLoadEnable = refreshLayoutController.isPullLoadEnable();
         }
 
-        if (isRefreshing) {
-            return super.dispatchTouchEvent(event);
+        if ((!mPullRefreshEnable && !mPullLoadEnable) || isRefreshing) {
+            return false;
         }
 
-        switch (event.getActionMasked()) {
+        switch (ev.getActionMasked()) {
             case MotionEvent.ACTION_DOWN: {
-                preY = event.getY();
-                preX = event.getX();
-                break;
+                preY = ev.getY();
+                preX = ev.getX();
+                return false;
             }
 
             case MotionEvent.ACTION_MOVE: {
-                float currentY = event.getY();
-                float currentX = event.getX();
+                float currentY = ev.getY();
+                float currentX = ev.getX();
                 float dy = currentY - preY;
                 float dx = currentX - preX;
                 preY = currentY;
@@ -281,23 +280,20 @@ public class NsRefreshLayout extends FrameLayout {
                         actionDetermined = true;
                     }
                 }
+
                 handleScroll(dy);
                 observerArriveBottom();
-                break;
+                return false;
             }
 
             case MotionEvent.ACTION_UP:
             case MotionEvent.ACTION_CANCEL: {
-                if (releaseTouch()) {
-                    MotionEvent cancelEvent = MotionEvent.obtain(event);
-                    cancelEvent.setAction(MotionEvent.ACTION_CANCEL);
-                    return super.dispatchTouchEvent(cancelEvent);
-                }
-                break;
+                return releaseTouch();
+                //return false;
             }
         }
 
-        return super.dispatchTouchEvent(event);
+        return false;
     }
 
     private void observerArriveBottom() {
@@ -353,7 +349,9 @@ public class NsRefreshLayout extends FrameLayout {
             }
             headerView.setProgressRotation(lp.height / loadingViewOverHeight);
             adjustContentViewHeight(lp.height);
-            return true;
+            if (lp.height > 0) {
+                return true;
+            }
 
         } else if (!canChildScrollDown() && mCurrentAction == ACTION_PULL_UP_LOAD_MORE && mPullLoadEnable) {
             //上拉加载更多
@@ -373,7 +371,9 @@ public class NsRefreshLayout extends FrameLayout {
             }
             footerView.setProgressRotation(lp.height / loadingViewOverHeight);
             adjustContentViewHeight(-lp.height);
-            return true;
+            if (lp.height > 0) {
+                return true;
+            }
         }
         return false;
     }
