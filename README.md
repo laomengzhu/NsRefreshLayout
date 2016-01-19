@@ -1,36 +1,36 @@
 # NsRefreshLayout 
-Ö§³ÖÈÎÒâViewµÄÏÂÀ­Ë¢ĞÂ¿Ø¼ş£¬Í¬Ê±Ö§³ÖÏÂÀ­Ë¢ĞÂ¡£
+æ”¯æŒä»»æ„Viewçš„ä¸‹æ‹‰åˆ·æ–°æ§ä»¶ï¼ŒåŒæ—¶æ”¯æŒä¸Šæ‹‰åŠ è½½æ›´å¤šã€‚å®ç°åŸç†ï¼šhttp://blog.csdn.net/xiaomoit/article/details/50469810
 
-## Ğ§¹ûÔ¤ÀÀ
+## æ•ˆæœé¢„è§ˆ
 
 ![demo](https://github.com/xiaolifan/NsRefreshLayout/blob/master/art/demo.gif?raw=true)
 
-## ÊôĞÔËµÃ÷
+## å±æ€§è¯´æ˜
 
 ```xml
 <declare-styleable name="NsRefreshLayout">
-    <!--LoadingÊÓÍ¼±³¾°ÑÕÉ«-->
+    <!--Loadingè§†å›¾èƒŒæ™¯é¢œè‰²-->
     <attr name="load_view_bg_color" format="color|reference"/>
-    <!--½ø¶ÈÌõÑÕÉ«-->
+    <!--è¿›åº¦æ¡é¢œè‰²-->
     <attr name="progress_bar_color" format="color|reference"/>
-    <!--½ø¶ÈÌõ±³¾°É«-->
+    <!--è¿›åº¦æ¡èƒŒæ™¯è‰²-->
     <attr name="progress_bg_color" format="color|reference"/>
-    <!--LoadingÊÓÍ¼ÖĞÎÄ×ÖÑÕÉ«-->
+    <!--Loadingè§†å›¾ä¸­æ–‡å­—é¢œè‰²-->
     <attr name="load_text_color" format="color|reference"/>
-    <!--ÏÂÀ­Ë¢ĞÂÎÊÌâÃèÊö-->
+    <!--ä¸‹æ‹‰åˆ·æ–°é—®é¢˜æè¿°-->
     <attr name="pull_refresh_text" format="string|reference"/>
-    <!--ÉÏÀ­¼ÓÔØÎÄ×ÖÃèÊö-->
+    <!--ä¸Šæ‹‰åŠ è½½æ–‡å­—æè¿°-->
     <attr name="pull_load_text" format="string|reference"/>
-    <!--ÊÇ·ñ×Ô¶¯´¥·¢¼ÓÔØ¸ü¶à-->
+    <!--æ˜¯å¦è‡ªåŠ¨è§¦å‘åŠ è½½æ›´å¤š-->
     <attr name="auto_load_more" format="boolean"/>
-    <!--ÏÂÀ­Ë¢ĞÂÊÇ·ñ¿ÉÓÃ-->
+    <!--ä¸‹æ‹‰åˆ·æ–°æ˜¯å¦å¯ç”¨-->
     <attr name="pull_refresh_enable" format="boolean"/>
-    <!--ÉÏÀ­¼ÓÔØÊÇ·ñ¿ÉÓÃ-->
+    <!--ä¸Šæ‹‰åŠ è½½æ˜¯å¦å¯ç”¨-->
     <attr name="pull_load_enable" format="boolean"/>
 </declare-styleable>
 ```
 
-## ¾ÙÀı
+## ä¸¾ä¾‹
 
 ```xml
 <?xml version="1.0" encoding="utf-8"?>
@@ -86,7 +86,7 @@ public class MainActivity extends AppCompatActivity implements
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        MenuItem item = menu.add(0, 0, 0, "½ûÓÃÉÏÀ­¼ÓÔØ¹¦ÄÜ");
+        MenuItem item = menu.add(0, 0, 0, "ç¦ç”¨ä¸Šæ‹‰åŠ è½½åŠŸèƒ½");
         item.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
         return true;
     }
