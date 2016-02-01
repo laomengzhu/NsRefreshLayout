@@ -242,25 +242,25 @@ public class NsRefreshLayout extends FrameLayout {
 
     @Override
     public void requestDisallowInterceptTouchEvent(boolean disallowIntercept) {
-
+        super.requestDisallowInterceptTouchEvent(disallowIntercept);
     }
 
     @Override
     public boolean onInterceptTouchEvent(MotionEvent ev) {
-        if (ev.getActionMasked() == MotionEvent.ACTION_DOWN && refreshLayoutController != null) {
-            mPullRefreshEnable = refreshLayoutController.isPullRefreshEnable();
-            mPullLoadEnable = refreshLayoutController.isPullLoadEnable();
-        }
-
         if ((!mPullRefreshEnable && !mPullLoadEnable) || isRefreshing) {
-            return false;
+            return super.onInterceptTouchEvent(ev);
         }
 
         switch (ev.getActionMasked()) {
             case MotionEvent.ACTION_DOWN: {
+                if (refreshLayoutController != null) {
+                    mPullRefreshEnable = refreshLayoutController.isPullRefreshEnable();
+                    mPullLoadEnable = refreshLayoutController.isPullLoadEnable();
+                }
                 preY = ev.getY();
                 preX = ev.getX();
-                return false;
+                actionDetermined = false;
+                return super.onInterceptTouchEvent(ev);
             }
 
             case MotionEvent.ACTION_MOVE: {
@@ -271,29 +271,59 @@ public class NsRefreshLayout extends FrameLayout {
                 preY = currentY;
                 preX = currentX;
                 if (!actionDetermined) {
+                    actionDetermined = true;
                     //判断是下拉刷新还是上拉加载更多
                     if (dy > 0 && !canChildScrollUp() && mPullRefreshEnable) {
                         mCurrentAction = ACTION_PULL_DOWN_REFRESH;
-                        actionDetermined = true;
                     } else if (dy < 0 && !canChildScrollDown() && mPullLoadEnable) {
                         mCurrentAction = ACTION_PULL_UP_LOAD_MORE;
-                        actionDetermined = true;
+                    } else {
+                        mCurrentAction = -1;
                     }
                 }
 
+                if (mCurrentAction != -1) {
+                    return true;
+                } else {
+                    return super.onInterceptTouchEvent(ev);
+                }
+            }
+
+            default: {
+                return super.onInterceptTouchEvent(ev);
+            }
+        }
+    }
+
+    @Override
+    public boolean onTouchEvent(MotionEvent event) {
+        if ((!mPullRefreshEnable && !mPullLoadEnable) || isRefreshing) {
+            return false;
+        }
+
+        switch (event.getActionMasked()) {
+            case MotionEvent.ACTION_MOVE: {
+                float currentY = event.getY();
+                float currentX = event.getX();
+                float dy = currentY - preY;
+                float dx = currentX - preX;
+                preY = currentY;
+                preX = currentX;
                 handleScroll(dy);
                 observerArriveBottom();
-                return false;
+                return true;
             }
 
             case MotionEvent.ACTION_UP:
             case MotionEvent.ACTION_CANCEL: {
                 return releaseTouch();
-                //return false;
+            }
+
+            default: {
+                return super.onTouchEvent(event);
             }
         }
 
-        return false;
     }
 
     private void observerArriveBottom() {
