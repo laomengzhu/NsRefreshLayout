@@ -11,6 +11,7 @@ import android.os.Build;
 import android.support.v4.view.ViewCompat;
 import android.text.TextUtils;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
@@ -134,7 +135,7 @@ public class NsRefreshLayout extends FrameLayout {
             throw new RuntimeException("can only have one child");
         }
         loadingViewFinalHeight = NrlUtils.dipToPx(context, LOADING_VIEW_FINAL_HEIGHT_DP);
-        loadingViewOverHeight = loadingViewFinalHeight * 2;
+        loadingViewOverHeight = loadingViewFinalHeight;
 
         if (isInEditMode() && attrs == null) {
             return;
@@ -257,23 +258,22 @@ public class NsRefreshLayout extends FrameLayout {
                     mPullRefreshEnable = refreshLayoutController.isPullRefreshEnable();
                     mPullLoadEnable = refreshLayoutController.isPullLoadEnable();
                 }
-                preY = ev.getY();
+                preY = ev.getRawY();
                 preX = ev.getX();
                 actionDetermined = false;
                 return super.onInterceptTouchEvent(ev);
             }
 
             case MotionEvent.ACTION_MOVE: {
-                float currentY = ev.getY();
-                float currentX = ev.getX();
+                //getX()是表示Widget相对于自身左上角的x坐标,而getRawX()是表示相对于屏幕左上角的x坐标值
+                float currentY = ev.getRawY();
                 float dy = currentY - preY;
-                float dx = currentX - preX;
                 preY = currentY;
-                preX = currentX;
                 if (!actionDetermined) {
+                    Log.d("TAG", "onInterceptTouchEvent() called with: " + "dy = [" + dy + "]");
                     actionDetermined = true;
                     //判断是下拉刷新还是上拉加载更多
-                    if (dy > 0 && !canChildScrollUp() && mPullRefreshEnable) {
+                    if (dy >= 0 && !canChildScrollUp() && mPullRefreshEnable) {
                         mCurrentAction = ACTION_PULL_DOWN_REFRESH;
                     } else if (dy < 0 && !canChildScrollDown() && mPullLoadEnable) {
                         mCurrentAction = ACTION_PULL_UP_LOAD_MORE;
@@ -303,12 +303,9 @@ public class NsRefreshLayout extends FrameLayout {
 
         switch (event.getActionMasked()) {
             case MotionEvent.ACTION_MOVE: {
-                float currentY = event.getY();
-                float currentX = event.getX();
+                float currentY = event.getRawY();
                 float dy = currentY - preY;
-                float dx = currentX - preX;
                 preY = currentY;
-                preX = currentX;
                 handleScroll(dy);
                 observerArriveBottom();
                 return true;
@@ -364,7 +361,7 @@ public class NsRefreshLayout extends FrameLayout {
                 mPullRefreshEnable) {
             //下拉刷新
             LayoutParams lp = (LayoutParams) headerView.getLayoutParams();
-            lp.height += distanceY;
+            lp.height += distanceY/2;
             if (lp.height < 0) {
                 lp.height = 0;
             } else if (lp.height > loadingViewOverHeight) {
@@ -592,6 +589,8 @@ public class NsRefreshLayout extends FrameLayout {
         if (mContentView == null) {
             return false;
         }
+        Log.d("TAG", "canScrollVertically:" + ViewCompat.canScrollVertically(mContentView, -1));
+
         if (Build.VERSION.SDK_INT < 14) {
             if (mContentView instanceof AbsListView) {
                 final AbsListView absListView = (AbsListView) mContentView;
